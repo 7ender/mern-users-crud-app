@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const transformUser = require('../../util/helpers/transform-user');
+
 const {
   validateCreateUserData,
   validateUpdateUserData
@@ -31,7 +33,7 @@ router.post('/', async (req, res) => {
 
   try {
     const user = await newUser.save();
-    return res.json(user);
+    return res.json(transformUser(user._doc));
   } catch (err) {
     return res.status(500).json({ error: err });
   }
@@ -42,7 +44,9 @@ router.get('/', (req, res) => {
   // Here I didnt use async await because it's overkill as there is only one promise returned
   User.find()
     .sort({ created: -1 })
-    .then((users) => res.json(users))
+    .then((users) => {
+      res.json(users.map((user) => transformUser(user)));
+    })
     .catch((err) => res.status(500).json({ error: err }));
 });
 
@@ -51,7 +55,7 @@ router.get('/:id', (req, res) => {
   const userId = req.params.id;
   User.findById(userId)
     .then((user) => {
-      res.json(user);
+      res.json(transformUser(user));
     })
     .catch((err) => {
       res.status(404).json({ error: 'User not found' });
@@ -78,7 +82,7 @@ router.put('/:id', async (req, res) => {
 
       await user.save();
 
-      return res.json(user);
+      return res.json(transformUser(user));
     } else {
       return res.status(404).json({ error: 'User not found' });
     }
