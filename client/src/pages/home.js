@@ -28,10 +28,12 @@ function Home() {
   }
 
   function deleteUser(id) {
-    axios.delete(`/users/${id}`).then(() => {
-      const usersUpdated = users.filter((user) => user.id !== id);
-      setUsers(usersUpdated);
-    });
+    if (window.confirm('Are you sure? You cannot revert this action')) {
+      axios.delete(`/users/${id}`).then(() => {
+        const usersUpdated = users.filter((user) => user.id !== id);
+        setUsers(usersUpdated);
+      });
+    }
   }
 
   function addUser(user) {

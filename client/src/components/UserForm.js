@@ -18,22 +18,6 @@ function UserForm({ addUser, editingUser }) {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  // function validateForm() {
-  //   const tempErrors = {};
-  //   if (post.title.trim() === '') {
-  //     tempErrors.title = 'Title must not be empty';
-  //   }
-  //   if (post.body.trim() === '') {
-  //     tempErrors.body = 'Body must not be empty';
-  //   }
-
-  //   if (Object.keys(tempErrors).length > 0) {
-  //     setErrors(tempErrors);
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   const onSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -43,13 +27,16 @@ function UserForm({ addUser, editingUser }) {
     if (user.id) {
       // Editing
       axios
-        .put(`/users/${user._id}`, user)
+        .put(`/users/${user.id}`, user)
         .then((res) => {
           addUser(res.data);
           setUser({ givenName: '', familyName: '', email: '' });
           setLoading(false);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          setLoading(false);
+          setErrors(err.response.data);
+        });
     } else {
       // Posting
       axios
@@ -59,14 +46,18 @@ function UserForm({ addUser, editingUser }) {
           setUser({ givenName: '', familyName: '', email: '' });
           setLoading(false);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          setLoading(false);
+          setErrors(err.response.data);
+        });
     }
   };
 
   return (
     <>
       {!loading ? (
-        <form className="push-in" onSubmit={onSubmit}>
+        <form className="push-in" onSubmit={onSubmit} noValidate>
+          <h5>Add/Edit a user:</h5>
           <div className="input-field">
             <label htmlFor="givenName">Given Name</label>
             <input

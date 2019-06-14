@@ -14,3 +14,9 @@
 .progress {
   margin: 100px 0;
 }
+span.helper-text {
+  color: red !important;
+}
+.about-section-container {
+  margin: 50px;
+}
