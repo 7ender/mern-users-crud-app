@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "hidjou",
+    "MONGO_PASSWORD": "wUSONJqZVKk1dPqV",
+    "MONGO_DB": "holiday-extras-db"
+  }
+}
