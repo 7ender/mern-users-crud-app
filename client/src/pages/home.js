@@ -51,13 +51,13 @@ function Home() {
   return (
     <div>
       <div className="row">
-        <div className="col s6">
+        <div className="col s12 m6">
           <UserForm addUser={addUser} editingUser={editingUser} />
         </div>
       </div>
       <div className="row">
         {users.map((user) => (
-          <div className="col s6" key={user.id}>
+          <div className="col s12 m6" key={user.id}>
             <div className="card">
               <div className="card-content">
                 <div className="card-title">
