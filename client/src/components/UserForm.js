@@ -57,12 +57,13 @@ function UserForm({ addUser, editingUser }) {
     <>
       {!loading ? (
         <form className="push-in" onSubmit={onSubmit} noValidate>
-          <h5>Add/Edit a user:</h5>
+          <h5>{user.email ? 'Edit a user:' : 'Add a new user:'}</h5>
           <div className="input-field">
-            <label htmlFor="givenName">Given Name</label>
+            <label className={user.givenName ? 'active' : ''} htmlFor="givenName">Given Name</label>
             <input
               type="text"
               name="givenName"
+              id="givenName"
               value={user.givenName}
               onChange={onChange}
               className={errors.givenName && 'invalid'}
@@ -70,10 +71,11 @@ function UserForm({ addUser, editingUser }) {
             <span className="helper-text">{errors.givenName}</span>
           </div>
           <div className="input-field">
-            <label htmlFor="familyName">Family Name</label>
+            <label className={user.familyName ? 'active' : ''} htmlFor="familyName">Family Name</label>
             <input
               type="text"
               name="familyName"
+              id="familyName"
               value={user.familyName}
               onChange={onChange}
               className={errors.familyName && 'invalid'}
@@ -81,10 +83,11 @@ function UserForm({ addUser, editingUser }) {
             <span className="helper-text">{errors.familyName}</span>
           </div>
           <div className="input-field">
-            <label htmlFor="email">Email</label>
+            <label className={user.email ? 'active' : ''} htmlFor="email">Email</label>
             <input
               type="email"
               name="email"
+              id="email"
               value={user.email}
               onChange={onChange}
               className={errors.email && 'invalid'}
@@ -96,10 +99,10 @@ function UserForm({ addUser, editingUser }) {
           </button>
         </form>
       ) : (
-        <div className="progress">
-          <div className="indeterminate" />
-        </div>
-      )}
+          <div className="progress">
+            <div className="indeterminate" />
+          </div>
+        )}
     </>
   );
 }
